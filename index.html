@@ -28,36 +28,49 @@
   
   <script>
 
-  var firstTitle
-
-    window.pollsterChart = function(incoming_data){
-      console.log(incoming_data);
-      console.log("Here's some: " + incoming_data[0].questions[0].name);
-      firstTitle = incoming_data[0].questions[0].name;
-      console.log("This is the title of the first chart: " + firstTitle);
-    };
 
 
   $(document).ready(function(){
-    $(".container").append("<p>Happy Saturday</p>");
+    
+  
+    var getTitles = function(data) {
+      for (var i = 0; i < 10; i++) {
+        var title = data[i].title;
+        var chartUrl = data[i].url;
+        $("#chart-list").append("<a href='" + chartUrl + "' target='blank'<p>This is a title: " + title + "</p></a>"); 
 
-  /*  $.ajax({
+      }
+    }
+
+    var showObject = function(data) {
+      var url = data[0].url;
+      $("#chart-window").append("<iframe src='" + url + ".desktop.svg' height=400 width=80% frameborder='0' sandbox>This is a chart</iframe>");
+    }
+  
+
+    window.pollsterChart = function(incoming_data){
+      console.log(incoming_data);
+      console.log("This is the url: " + incoming_data[0].url);
+      getTitles(incoming_data);
+      showObject(incoming_data);
+    };
+
+    $.ajax({
       url: 'http://elections.huffingtonpost.com/pollster/api/charts.json?topic=2016-senate&callback=pollsterChart',
       dataType: 'script',
       type: 'GET',
       cache: true
     });
-*/
+  
 
 
-
-    $.ajax({
+   /* $.ajax({
       url: 'http://elections.huffingtonpost.com/pollster/api/polls.json?topic=2016-senate&callback=pollsterChart',
       dataType: 'script',
       type: 'GET',
       cache: true
     });
-
+*/
     /*$.getJSON('http://elections.huffingtonpost.com/pollster/api/polls.json?page=2&jsoncallback=?', function(data) {
       console.log(data);
 
@@ -83,7 +96,7 @@
         <button class="button">Favorability Ratings</button>
       </div>
       <div id="chart-list"></div>
-      <div id="chart-window"><p>View to another webpage</p></div>
+      <div id="chart-window"></div>
     </div>
   </div>
 
