@@ -34,34 +34,38 @@
     
   
     var getTitles = function(data) {
-      for (var i = 0; i < 10; i++) {
+      for (var i = 0; i < 5; i++) {
         var title = data[i].title;
-        var chartUrl = data[i].url;
-        $("#chart-list").append("<a href='" + chartUrl + "' target='blank'<p>This is a title: " + title + "</p></a>"); 
-
+        var chartUrl = data[i].url + ".desktop.svg";
+        $("#chart-list").append("<p>" + title + "</p><iframe src='" + chartUrl + "' height=400 width=80% frameborder='0'></iframe>");
       }
     }
 
-    var showObject = function(data) {
-      var url = data[0].url;
-      $("#chart-window").append("<iframe src='" + url + ".desktop.svg' height=400 width=80% frameborder='0' sandbox>This is a chart</iframe>");
-    }
   
 
     window.pollsterChart = function(incoming_data){
       console.log(incoming_data);
-      console.log("This is the url: " + incoming_data[0].url);
       getTitles(incoming_data);
-      showObject(incoming_data);
     };
 
+    /*var searchURL = 'http://elections.huffingtonpost.com/pollster/api/charts.json?topic=2016-senate&callback=pollsterChart'; */
+
+    var twoLetters = 'CA';
+
+/*    $('form').submit(function() {
+      twoLetters = $(this).val();
+      return twoLetters;
+    }); // end submit
+*/
+    var state = 'state=' + twoLetters + '&';
+    var searchURL = 'http://elections.huffingtonpost.com/pollster/api/charts.json?topic=2016-senate&' + state + 'callback=pollsterChart';
+
     $.ajax({
-      url: 'http://elections.huffingtonpost.com/pollster/api/charts.json?topic=2016-senate&callback=pollsterChart',
+      url: searchURL,
       dataType: 'script',
       type: 'GET',
       cache: true
     });
-  
 
 
    /* $.ajax({
@@ -84,16 +88,20 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="container">
-    <div class="row">
       <div class=".one.column">
-        <h4>HuffPo Poll Watcher</h4>
-        <p>Using the fantastic Huffington Post API to give you a one-stop spot for finding the latest polls on the 2016 election.</p>
+        <h4>Battle for the Senate</h4>
+        <p>Keep tabs on the latest polling data related to the 2016 Senate Elections</p>
       </div>
-      <div id="chart-box">
-        <button class="button">All Charts</button>
-        <button class="button">Presidential Election</button>
-        <button class="button">Senate Elections</button>
-        <button class="button">Favorability Ratings</button>
+      <div class="button-group">
+        <form>
+          <label for="state">Find polls about your state</label>
+          <input id ="state" type="text" placeholder="2-letter abbreviation"><br>
+          <input type="submit" value="Submit"><br>
+        </form>
+          <button class="button">All Charts</button>
+          <button class="button">Presidential Election</button>
+          <button class="button">Senate Elections</button>
+          <button class="button">Favorability Ratings</button>
       </div>
       <div id="chart-list"></div>
       <div id="chart-window"></div>

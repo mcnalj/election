@@ -8,4 +8,27 @@ html {
 
 h4 {
 	text-align: center;
+	font-weight: bold;
+	font-size: 2.5em;
+}
+p {
+	margin: 0 auto;
+	text-align: center;
+}
+form {
+	display: block;
+	text-align: center;
+}
+.button-group {
+	margin: 0 auto;
+	margin-top: 5%;
+	width: 80%;
+}
+#chart-list p {
+	font-size: 1.5em;
+	margin-top: 3%;
+}
+iframe {
+	display: block;
+	margin: 0 auto;
 }
